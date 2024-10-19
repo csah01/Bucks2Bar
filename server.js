@@ -20,27 +20,39 @@ const corsOptions = {
 app.use(cors(corsOptions)); // Enable CORS
 
 app.post('/send-email', (req, res) => {
-    const { email, image } = req.body;
+    const { emailId, image } = req.body;
 
-    // Validate and sanitize the image input
-    /*if (!image || !validator.isBase64(image.split(',')[1])) {
+    console.log('SEND email works', emailId);
+    // Validate and sanitize the email and image inputs
+    /*if (!emailId || !validator.isEmail(emailId)) {
+        return res.status(400).send('Invalid email address!');
+    }
+    if (!image || !validator.isBase64(image.split(',')[1])) {
         return res.status(400).send('Invalid image data');
     }*/
 
-    console.log('SEND email works');
-    /* const transporter = createTransport({
-        service: 'gmail',
+    const transporter = createTransport({
+        host: 'smtp.example.com', // Replace with your SMTP server host
+        port: 587, // Replace with your SMTP server port (usually 587 for TLS or 465 for SSL)
+        secure: false, // Set to true if using port 465
         auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS
+            user: process.env.EMAIL_USER, // Your email address
+            pass: process.env.EMAIL_PASS  // Your email password
         }
     });
 
     const mailOptions = {
-        from: process.env.EMAIL_USER,
-        to: 'recipient-email@gmail.com',
+        from: 'test@resend.dev', // Use a test/dev email from Resend
+        to: emailId,
         subject: 'Your Chart Image',
-        html: '<h1>Your Chart</h1><img src="' + image + '" />'
+        html: '<h1>Your Chart</h1><img src="' + image + '" />',
+        attachments: [
+            {
+                filename: 'chart.png',
+                content: image.split(',')[1], // Base64 content
+                encoding: 'base64'
+            }
+        ]
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -48,7 +60,7 @@ app.post('/send-email', (req, res) => {
             return res.status(500).send(error.toString());
         }
         res.status(200).send('Email sent: ' + info.response);
-    }); */
+    });
 });
 
 app.listen(3000, () => {
