@@ -4,21 +4,31 @@ import { createTransport } from 'nodemailer';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import validator from 'validator';
+import cors from 'cors';
 
 dotenv.config();
 
 const app = express();
-app.use(bodyParser.json());
+
+// Increase the body size limit
+app.use(bodyParser.json({ limit: '10mb' }));
+
+const corsOptions = {
+    origin: 'http://localhost:63343',
+    optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions)); // Enable CORS
 
 app.post('/send-email', (req, res) => {
-    const { image } = req.body;
+    const { email, image } = req.body;
 
     // Validate and sanitize the image input
-    if (!image || !validator.isBase64(image.split(',')[1])) {
+    /*if (!image || !validator.isBase64(image.split(',')[1])) {
         return res.status(400).send('Invalid image data');
-    }
+    }*/
 
-    const transporter = createTransport({
+    console.log('SEND email works');
+    /* const transporter = createTransport({
         service: 'gmail',
         auth: {
             user: process.env.EMAIL_USER,
@@ -38,7 +48,7 @@ app.post('/send-email', (req, res) => {
             return res.status(500).send(error.toString());
         }
         res.status(200).send('Email sent: ' + info.response);
-    });
+    }); */
 });
 
 app.listen(3000, () => {

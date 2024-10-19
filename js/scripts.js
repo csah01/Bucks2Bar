@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const chartTab = document.querySelector('#chart-tab');
   const downloadButton = document.querySelector('#download');
+  const emailButton = document.querySelector('#sendEmail');
   let myBarChart;
 
   // input with id "username" on change
@@ -71,5 +72,32 @@ document.addEventListener('DOMContentLoaded', () => {
     link.href = image;
     link.download = 'chart.png';
     link.click();
+  });
+
+  emailButton.addEventListener('click', () => {
+    const canvas = document.querySelector('#myBarChart');
+    const image = canvas.toDataURL('image/png');
+    const email = document.getElementById('email');
+    if (email) {
+      fetch(`http://localhost:3000/send-email`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ image })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert('Email sent successfully!');
+        } else {
+          alert('Failed to send email.');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while sending the email.');
+      });
+    }
   });
 });
