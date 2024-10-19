@@ -29,8 +29,6 @@ jspm_packages/
 # IDE specific files
 .idea/
 .vscode/
-*.sublime-project
-*.sublime-workspace
 
 # MacOS specific files
 .DS_Store
@@ -45,3 +43,6 @@ build/
 # Temporary files
 tmp/
 temp/
+
+# Environment variables file
+.env
