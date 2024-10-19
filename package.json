@@ -1,0 +1,12 @@
+{
+  "name": "bucks2bar",
+  "version": "1.0.0",
+  "description": "This is the `bucks2bar` project.",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC"
+}
