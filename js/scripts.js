@@ -1,33 +1,28 @@
-document.addEventListener('DOMContentLoaded', function () {
-  const chartTab = document.getElementById('chart-tab');
-  const downloadButton = document.getElementById('download');
+document.addEventListener('DOMContentLoaded', () => {
+  const chartTab = document.querySelector('#chart-tab');
+  const downloadButton = document.querySelector('#download');
   let myBarChart;
 
   // input with id "username" on change
-  document.getElementById('username').addEventListener('input', function () {
-    const username = this.value;
+  document.querySelector('#username').addEventListener('input', ({ target }) => {
+    const { value: username } = target;
 
     // regex to check if username has at least 1 capital letter, 1 special character, 1 number, and 8 characters long
     const regex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*\d).{8,}$/;
 
-    if (regex.test(username)) {
-      // set the username input border to green
-      this.style.border = '1px solid green';
-    } else {
-      // set username input border to red
-      this.style.border = '1px solid red';
-    }
+    target.style.border = regex.test(username) ? '1px solid green' : '1px solid red';
   });
 
-  chartTab.addEventListener('click', function () {
+  chartTab.addEventListener('click', () => {
     const months = [
       'January', 'February', 'March', 'April', 'May', 'June',
       'July', 'August', 'September', 'October', 'November', 'December'
     ];
 
-    let monthLabels = [];
-    let incomeData = [];
-    let expensesData = [];
+    const monthLabels = [];
+    const incomeData = [];
+    const expensesData = [];
+
     months.forEach(month => {
       const income = document.querySelector(`#${month.toLowerCase()}-income`).value;
       const expenses = document.querySelector(`#${month.toLowerCase()}-expenses`).value;
@@ -36,12 +31,11 @@ document.addEventListener('DOMContentLoaded', function () {
       expensesData.push(expenses);
     });
 
-
     if (myBarChart) {
       myBarChart.destroy();
     }
 
-    const ctx = document.getElementById('myBarChart').getContext('2d');
+    const ctx = document.querySelector('#myBarChart').getContext('2d');
     myBarChart = new Chart(ctx, {
       type: 'bar',
       data: {
@@ -70,8 +64,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  downloadButton.addEventListener('click', function () {
-    const canvas = document.getElementById('myBarChart');
+  downloadButton.addEventListener('click', () => {
+    const canvas = document.querySelector('#myBarChart');
     const image = canvas.toDataURL('image/png');
     const link = document.createElement('a');
     link.href = image;
