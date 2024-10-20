@@ -22,7 +22,7 @@ app.use(cors(corsOptions)); // Enable CORS
 app.post('/send-email', (req, res) => {
     const { emailId, image } = req.body;
 
-    console.log('SEND email works', emailId);
+    console.log('Email sent to ', emailId);
     // Validate and sanitize the email and image inputs
     /*if (!emailId || !validator.isEmail(emailId)) {
         return res.status(400).send('Invalid email address!');
@@ -32,8 +32,8 @@ app.post('/send-email', (req, res) => {
     }*/
 
     const transporter = createTransport({
-        host: 'smtp.example.com', // Replace with your SMTP server host
-        port: 587, // Replace with your SMTP server port (usually 587 for TLS or 465 for SSL)
+        host: process.env.EMAIL_HOST, // Replace with your SMTP server host
+        port: process.env.EMAIL_PORT, // Replace with your SMTP server port (usually 587 for TLS or 465 for SSL)
         secure: false, // Set to true if using port 465
         auth: {
             user: process.env.EMAIL_USER, // Your email address
@@ -45,7 +45,7 @@ app.post('/send-email', (req, res) => {
         from: 'test@resend.dev', // Use a test/dev email from Resend
         to: emailId,
         subject: 'Your Chart Image',
-        html: '<h1>Your Chart</h1><img src="' + image + '" />',
+        text: 'Please find your chart image attached.',
         attachments: [
             {
                 filename: 'chart.png',

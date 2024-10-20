@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
   emailButton.addEventListener('click', () => {
     const canvas = document.querySelector('#myBarChart');
     const image = canvas.toDataURL('image/png');
-    const emailId = document.getElementById('email-id');
+    const emailId = document.getElementById('email-id').value;
     if (emailId) {
       fetch(`http://localhost:3000/send-email`, {
         method: 'POST',
@@ -87,32 +87,16 @@ document.addEventListener('DOMContentLoaded', () => {
         body: JSON.stringify({ emailId, image })
       })
       .then(response => {
-        console.log("Response Status:", response, response.status); // Log the response status
+        console.log("Response Status:", response.status, response, response.text(), response.json()); // Log the response status
         console.log("Response Headers:", response.headers.get('Content-Type')); // Log the response headers
-        return response.text();
-      })
-      .then(response => {
         const contentType = response.headers.get("content-type");
-        return response.text().then(text => {
-            console.log("Response Text:", text); // Log the response text
-            if (contentType && contentType.includes("application/json")) {
-                try {
-                    const data = JSON.parse(text); // Parse the response text as JSON
-                    if (data.success) {
-                        alert('Email sent successfully!');
-                    } else {
-                        alert('Failed to send email.');
-                    }
-                } catch (error) {
-                    console.error('Error parsing JSON:', error.message);
-                    alert('An error occurred while processing the server response.');
-                }
-            } else {
-                console.error('Response is not JSON:', text);
-                alert('An error occurred: Response is not in JSON format.');
-            }
-        });
-    })
+
+        if (response.status === 200) {
+          alert('Email sent successfully!');
+        } else {
+            alert('Failed to send email.');
+        }
+      })
       .catch(error => {
         console.error('Error:', error);
         alert('An error occurred while sending the email.');
