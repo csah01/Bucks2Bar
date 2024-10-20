@@ -21,3 +21,31 @@ test("invalid username without a number", () => {
 test("invalid username with less than 8 characters", () => {
   expect(regex.test("Pass1!")).toBe(false);
 });
+
+// Mocking the DOM elements and functions for the download button click event
+/*document.body.innerHTML = `
+  <canvas id="myBarChart"></canvas>
+  <button id="download">Download</button>
+`;
+
+const downloadButton = document.querySelector('#download');
+const canvas = document.querySelector('#myBarChart');
+canvas.toDataURL = jest.fn(() => 'data:image/png;base64,mockImageData');
+const link = {
+  href: '',
+  download: '',
+  click: jest.fn()
+};
+document.createElement = jest.fn(() => link);
+
+require('./scripts.js');
+
+test("download button click event should create a link and trigger download", () => {
+  downloadButton.click();
+
+  expect(canvas.toDataURL).toHaveBeenCalledWith('image/png');
+  expect(link.href).toBe('data:image/png;base64,mockImageData');
+  expect(link.download).toBe('chart.png');
+  expect(link.click).toHaveBeenCalled();
+}); */
+

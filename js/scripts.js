@@ -3,16 +3,32 @@ document.addEventListener('DOMContentLoaded', () => {
   const downloadButton = document.querySelector('#download');
   const emailButton = document.querySelector('#sendEmail');
   let myBarChart;
-
-  // input with id "username" on change
-  document.querySelector('#username').addEventListener('input', ({ target }) => {
+  
+  /**
+   * Callback function to handle user input for username validation.
+   * 
+   * This function checks if the username meets the following criteria:
+   * - Contains at least one uppercase letter.
+   * - Contains at least one special character.
+   * - Contains at least one number.
+   * - Is at least 8 characters long.
+   * 
+   * If the username meets the criteria, the input field's border is set to green.
+   * Otherwise, the border is set to red.
+   * 
+   * @param {Event} event - The input event triggered by the user.
+   * @param {HTMLInputElement} event.target - The input element where the username is entered.
+   */
+  function userNameInputCallback({ target }) {
     const { value: username } = target;
-
+  
     // regex to check if username has at least 1 capital letter, 1 special character, 1 number, and 8 characters long
     const regex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*\d).{8,}$/;
-
+  
     target.style.border = regex.test(username) ? '1px solid green' : '1px solid red';
-  });
+  }
+  
+  document.querySelector('#username').addEventListener('input', userNameInputCallback);
 
   chartTab.addEventListener('click', () => {
     const months = [
