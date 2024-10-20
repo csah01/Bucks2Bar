@@ -46,3 +46,12 @@ temp/
 
 # Environment variables file
 .env
+
+# Python packages
+__pycache__/
+*.pyc
+
+# Virtual environment directories
+venv/
+env/
+.venv/
